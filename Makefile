@@ -1,8 +1,8 @@
 name = dstat
 version = $(shell awk '/^Version: / {print $$2}' $(name).spec)
 
-prefix = /usr
-sysconfdir = /etc
+prefix = /usr/local
+sysconfdir = /usr/local/etc
 bindir = $(prefix)/bin
 datadir = $(prefix)/share
 mandir = $(datadir)/man
@@ -17,13 +17,14 @@ docs:
 
 install:
 #	-[ ! -f $(DESTDIR)$(sysconfdir)/dstat.conf ] && install -D -m0644 dstat.conf $(DESTDIR)$(sysconfdir)/dstat.conf
-	install -Dp -m0755 dstat $(DESTDIR)$(bindir)/dstat
+#	OS X does not support the -D flag in install
+	install -p -m0755 dstat $(DESTDIR)$(bindir)/dstat
 	install -d -m0755 $(DESTDIR)$(datadir)/dstat/
-	install -Dp -m0755 dstat $(DESTDIR)$(datadir)/dstat/dstat.py
-	install -Dp -m0644 plugins/dstat_*.py $(DESTDIR)$(datadir)/dstat/
+	install -p -m0755 dstat $(DESTDIR)$(datadir)/dstat/dstat.py
+	install -p -m0644 plugins/dstat_*.py $(DESTDIR)$(datadir)/dstat/
 #	install -d -m0755 $(DESTDIR)$(datadir)/dstat/examples/
 #	install -Dp -m0755 examples/*.py $(DESTDIR)$(datadir)/dstat/examples/
-	install -Dp -m0644 docs/dstat.1 $(DESTDIR)$(mandir)/man1/dstat.1
+	install -p -m0644 docs/dstat.1 $(DESTDIR)$(mandir)/man1/dstat.1
 
 docs-install:
 	$(MAKE) -C docs install
